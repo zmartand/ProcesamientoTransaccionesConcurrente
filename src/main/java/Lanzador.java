@@ -6,7 +6,10 @@ import java.io.PrintWriter;
 public class Lanzador {
     public static void main(String[] args) {
         String[] archivos = { "informatica.txt", "gerencia.txt", "contabilidad.txt", "comercio.txt", "recursos_humanos.txt" };
-
+        // Generar datos de transacciones de ejemplo y almacenarlos en archivos de departamento
+        for (String archivo : archivos) {
+            generarTransacciones(archivo);
+        }
         // Crear hilos para procesar cada archivo
         Thread[] threads = new Thread[archivos.length];
         for (int i = 0; i < archivos.length; i++) {
@@ -33,6 +36,18 @@ public class Lanzador {
             e.printStackTrace();
         }
     }
+    // Generar transacciones "falsas"" para un archivo
+    private static void generarTransacciones(String archivo) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(archivo))) {
+            for (int i = 0; i < 100; i++) {
+                long transaccion = (long) (Math.random() * 1000);
+                pw.println(transaccion);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 

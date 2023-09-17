@@ -1,11 +1,15 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-
 public class Lanzador {
     public static void main(String[] args) {
-        String[] archivos = { "informatica.txt", "gerencia.txt", "contabilidad.txt", "comercio.txt", "recursos_humanos.txt" };
+        String[] archivos = {
+                "src/data/informatica.txt",
+                "src/data/gerencia.txt",
+                "src/data/contabilidad.txt",
+                "src/data/comercio.txt",
+                "src/data/recursos_humanos.txt"
+        };
         // Generar datos de transacciones de ejemplo y almacenarlos en archivos de departamento
         for (String archivo : archivos) {
             generarTransacciones(archivo);
@@ -16,7 +20,6 @@ public class Lanzador {
             threads[i] = new Thread(new ProcesadorContabilidad(archivos[i]));
             threads[i].start();
         }
-
         // Esperar a que todos los hilos terminen
         for (Thread thread : threads) {
             try {
@@ -34,13 +37,10 @@ public class Lanzador {
                 e.printStackTrace();
             }
         }
-
-
         // Sumar todas las sumas de departamentos
         long sumaGlobal = UtilidadesFicheros.obtenerSumaTransacciones(archivos);
-
         // Guardar resultado global
-        try (PrintWriter pw = new PrintWriter(new FileWriter("Resultado_global.txt"))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter("src/data/" + "Resultado_global.txt"))) {
             pw.println(sumaGlobal);
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,17 +49,14 @@ public class Lanzador {
     // Generar transacciones "falsas"" para un archivo
     private static void generarTransacciones(String archivo) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(archivo, true))) {
-            for (int i = 0; i < 100; i++) {
-                long transaccion = (long) (Math.random() * 1000); // Datos ficticios, puedes cambiar esto
+            for (int i = 0; i < 25; i++) {
+                long transaccion = (long) (Math.random() * 1000);
                 pw.println(transaccion);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 }
 
 

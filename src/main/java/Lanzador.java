@@ -25,6 +25,16 @@ public class Lanzador {
                 e.printStackTrace();
             }
         }
+        // Actualizar archivos de resultados con las sumas de transacciones
+        for (String archivo : archivos) {
+            long sumaDepartamento = UtilidadesFicheros.obtenerSumaTransacciones(new String[]{archivo});
+            try (PrintWriter pw = new PrintWriter(new FileWriter(archivo + ".res"))) {
+                pw.println(sumaDepartamento);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         // Sumar todas las sumas de departamentos
         long sumaGlobal = UtilidadesFicheros.obtenerSumaTransacciones(archivos);
@@ -38,15 +48,17 @@ public class Lanzador {
     }
     // Generar transacciones "falsas"" para un archivo
     private static void generarTransacciones(String archivo) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(archivo))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(archivo, true))) {
             for (int i = 0; i < 100; i++) {
-                long transaccion = (long) (Math.random() * 1000);
+                long transaccion = (long) (Math.random() * 1000); // Datos ficticios, puedes cambiar esto
                 pw.println(transaccion);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 }
 
